@@ -31,27 +31,33 @@ ResearchMate is a **multi-agent backend system** that automates academic researc
 ---
 
 ## Architecture (high level)
+
 ```mermaid
 flowchart TD
-    A[User Input: Research Topic] --> B[Research Agent<br/>Collects Papers (arXiv, PubMed, Local)]
-    B --> C[Summariser Agent<br/>Synthesizes Structured Report]
-    C --> D[Editor Agent<br/>Polishes Tone & Cohesion]
-    D --> E[PDF Generator<br/>Markdown → PDF + References]
+    A["User Input (Research Topic)"] --> B["Research Agent: collects papers - arXiv, PubMed, local"]
+    B --> C["Summariser Agent: synthesizes structured report"]
+    C --> D["Editor Agent: polishes tone and cohesion"]
+    D --> E["PDF Generator: Markdown to PDF + References"]
+
 ```
 
-### Module Map
-- `agents/`
-  - `research_agent.py`: Orchestrates tools, builds article set
-  - `summariser_agent.py`: Gemini synthesis with academic sections + numbered refs
-  - `editor_agent.py`: Style/clarity pass
-  - `base_agent.py`: Shared behavior
-- `tools/`
-  - `arxiv_tool.py`, `pubmed_tool.py`: External search + fetch
-  - `document_search_tool.py`: Local corpus matches
-  - `base_tool.py`: Shared behavior
-- `workflows/orchestrator.py`: Runs the end-to-end pipeline
-- `configs/settings.py`, `configs/pipeline_config.yaml`: Keys, paths, pipeline options
-- `outputs/articles/*`, `outputs/final_report.pdf`: Artifacts
+
+## 🧩 Module Map
+
+| Layer | Folder / File | Purpose |
+|:------|:---------------|:--------|
+| **Agents** | `agents/research_agent.py` | 🧠 Gathers articles via integrated tools (arXiv, PubMed, Local) |
+|  | `agents/summariser_agent.py` | ✍️ Synthesizes structured academic report with Gemini |
+|  | `agents/editor_agent.py` | 🧹 Polishes clarity, tone, and formatting |
+|  | `agents/base_agent.py` | ⚙️ Shared base class for all agents |
+| **Tools** | `tools/arxiv_tool.py`, `tools/pubmed_tool.py` | 🔎 External search + metadata extraction |
+|  | `tools/document_search_tool.py` | 📂 Local corpus matching for uploaded files |
+|  | `tools/base_tool.py` | ⚙️ Common interface for all data tools |
+| **Workflow** | `workflows/orchestrator.py` | 🧩 Orchestrates agent-to-agent flow (Research → Summarise → Edit → Export) |
+| **Config** | `configs/settings.py`, `configs/pipeline_config.yaml` | 🛠️ API keys, runtime paths, feature toggles |
+| **Outputs** | `outputs/articles/`, `outputs/final_report.pdf` | 📦 Generated research files & final PDF |
+| **Docs** | `docs/ARCHITECTURE.md`, `docs/PROJECT_SUMMARY.md` | 🗂️ Technical documentation & architecture notes |
+
 
 ### Results & Metrics (typical run)
 | Metric               | Result          | Notes                    |
@@ -127,5 +133,4 @@ researchmate/
 - **License:** MIT (see `LICENSE`)
 - **Author:** Yohannes Nigusse
 
-### Hiring Snapshot (Resume)
-- Built an autonomous multi-agent research assistant integrating arXiv/PubMed + Gemini to generate academic PDF reports (<2 min/topic, ~85% relevance).
+
