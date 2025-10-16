@@ -8,10 +8,15 @@
 
 ResearchMate is a **multi-agent backend system** that automates academic research: it **finds papers (arXiv/PubMed + local docs), synthesizes findings with Gemini, edits for clarity, and exports a structured PDF** — all from a single command.
 
+### Origin & Motivation
+ResearchMate was inspired by my time as an Undergraduate Research Assistant at the Brain-Computer Interface Lab at Saint Cloud State University. While working on the [Avatar](https://github.com/3C-SCSU/Avatar) project, I saw how much time researchers spent manually searching, reading, and summarizing academic papers before they could actually begin their experiments.
+
+That challenge led me to build ResearchMate — a system that automates the entire research workflow by collecting, summarizing, and formatting literature from trusted databases like PubMed and arXiv. After completing the prototype, I realized it could also support students and educators who face similar challenges in organizing information. I’m now collaborating with [Kibur College](https://www.linkedin.com/company/kibur-college/) to pilot an institutional version that helps streamline how students and instructors access and synthesize research materials.
+
 ---
 
 ## Problem → Solution
-**Problem.** Literature reviews are slow and repetitive: searching, triaging, synthesizing, formatting, and referencing.
+**Problem.** Literature reviews are slow and repetitive: searching, triaging, synthesizing, formatting, and referencing. This is especially painful for student researchers and faculty juggling multiple courses and deadlines.
 
 **Solution.** ResearchMate runs a **configurable pipeline**:
 1) collect relevant articles,
@@ -38,25 +43,25 @@ flowchart TD
     B --> C["Summariser Agent: synthesizes structured report"]
     C --> D["Editor Agent: polishes tone and cohesion"]
     D --> E["PDF Generator: Markdown to PDF + References"]
-
 ```
 
 
 ## 🧩 Module Map
 
+🧩 Module Map
 | Layer | Folder / File | Purpose |
-|:------|:---------------|:--------|
-| **Agents** | `agents/research_agent.py` | 🧠 Gathers articles via integrated tools (arXiv, PubMed, Local) |
-|  | `agents/summariser_agent.py` | ✍️ Synthesizes structured academic report with Gemini |
-|  | `agents/editor_agent.py` | 🧹 Polishes clarity, tone, and formatting |
-|  | `agents/base_agent.py` | ⚙️ Shared base class for all agents |
-| **Tools** | `tools/arxiv_tool.py`, `tools/pubmed_tool.py` | 🔎 External search + metadata extraction |
-|  | `tools/document_search_tool.py` | 📂 Local corpus matching for uploaded files |
-|  | `tools/base_tool.py` | ⚙️ Common interface for all data tools |
-| **Workflow** | `workflows/orchestrator.py` | 🧩 Orchestrates agent-to-agent flow (Research → Summarise → Edit → Export) |
-| **Config** | `configs/settings.py`, `configs/pipeline_config.yaml` | 🛠️ API keys, runtime paths, feature toggles |
-| **Outputs** | `outputs/articles/`, `outputs/final_report.pdf` | 📦 Generated research files & final PDF |
-| **Docs** | `docs/ARCHITECTURE.md`, `docs/PROJECT_SUMMARY.md` | 🗂️ Technical documentation & architecture notes |
+| --- | --- | --- |
+| Agents | agents/research_agent.py | Gathers articles via tools (arXiv, PubMed, local) and builds {title, content} list |
+|  | agents/summariser_agent.py | Synthesizes a structured academic report with Gemini (sections + numbered refs) |
+|  | agents/editor_agent.py | Polishes clarity, tone, and consistency |
+|  | agents/base_agent.py | Shared base class for agent behaviors |
+| Tools | tools/arxiv_tool.py, tools/pubmed_tool.py | External search/fetch + normalization |
+|  | tools/document_search_tool.py | Local corpus matching for uploaded files |
+|  | tools/base_tool.py | Common interface for all tools |
+| Workflow | workflows/orchestrator.py | Orchestrates flow (Research → Summarise → Edit → Export), tracks article sources |
+| Config | configs/settings.py, configs/pipeline_config.yaml | API keys, paths, feature toggles, limits |
+| Outputs | outputs/articles/, outputs/final_report.pdf | Downloaded sources and final report artifacts |
+| Docs | docs/ARCHITECTURE.md, docs/PROJECT_SUMMARY.md | Technical docs and architecture notes |
 
 
 ### Results & Metrics (typical run)
@@ -132,5 +137,3 @@ researchmate/
 ### License & Author
 - **License:** MIT (see `LICENSE`)
 - **Author:** Yohannes Nigusse
-
-
